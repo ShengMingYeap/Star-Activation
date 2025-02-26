@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('status', ['active', 'inactive', 'banned'])->default('active');
             $table->enum('role', ['user', 'admin'])->default('user');
+            $table->decimal('balance', 18, 2)->default(0.00);
             $table->string('referral_code')->nullable();
             $table->dateTime('last_login')->nullable();
             $table->string('ip_address')->nullable();
