@@ -52,11 +52,16 @@ class User extends Authenticatable
 
     public function transactions()
     {
-        return $this->hasMany(Transactions::class, 'receiver_id', 'id');
+        return $this->hasMany(Transactions::class, 'user_id', 'id');
     }
 
     public function transfers()
     {
-        return $this->hasMany(Transfers::class, 'receiver_id', 'id');
+        return $this->hasMany(Transfers::class, 'sender_id', 'id');
+    }
+
+    public function account()
+    {
+        return $this->hasMany(UserAccount::class, 'receiver_id', 'id');
     }
 }

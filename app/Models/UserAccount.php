@@ -4,20 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Transfers extends Model
+class UserAccount extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+
+    protected $table = 'user_accounts';
 
     protected $fillable = [
-        'transfers_id',
-        'sender_id',
         'receiver_id',
-        'transfer_amount',
-        'transfer_status',
-        'transfer_timestamp'
+        'login',
+        'password',
+        'balance',
+        'server',
+        'leverage',
+        'type',
+        'status'
     ];
 
     public function user() {
