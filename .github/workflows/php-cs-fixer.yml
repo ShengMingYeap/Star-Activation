@@ -34,4 +34,11 @@ jobs:
       # Run PHP CS Fixer
       - name: Run PHP CS Fixer
         run: |
-          vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php
+          vendor/bin/php-cs-fixer fix --diff --config=.php-cs-fixer.dist.php
+
+      # Commit changes automatically
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Apply PHP CS Fixer Changes"
+          branch: ${{ github.ref }}
