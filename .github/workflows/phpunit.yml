@@ -1,0 +1,59 @@
+name: Run PHPUnit Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up PHP
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2.4'
+          extensions: mbstring, bcmath, pdo, pdo_sqlite
+
+      # Install Composer dependencies
+      - name: Install dependencies
+        run: composer install --no-scripts --no-progress --prefer-dist
+
+      # Set up the application environment
+      - name: Create .env file
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+
+      # Set up database
+      - name: Set up SQLite database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+          php artisan migrate --env=testing --force
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      # Ensure Vite is available (check the version)
+      - name: Check Vite version
+        run: ./node_modules/.bin/vite --version
+
+      # Build the assets using Vite (this generates the manifest.json file)
+      - name: Build assets with Vite
+        run: npm run build
+
+      # Run PHPUnit tests
+      - name: Run tests
+        run: vendor/bin/phpunit
