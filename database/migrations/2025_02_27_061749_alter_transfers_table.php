@@ -31,6 +31,7 @@ return new class extends Migration
     {
         Schema::table('transfers', function (Blueprint $table) {
             $table->dropColumn('transfers_id');
+            $table->dropForeign(['sender_id']);
             $table->dropColumn('sender_id');
             if (Schema::hasColumn('transfers', 'account_from')) {
                 $table->dropColumn('account_from');
