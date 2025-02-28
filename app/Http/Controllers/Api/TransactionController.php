@@ -43,7 +43,7 @@ class TransactionController extends Controller
             $isAuthorized = $transaction->contains(function ($record) {
                 return $record->user_id === Auth::id();
             });
-        
+
             if (!$isAuthorized) {
                 return response()->json([
                     'message' => 'Unauthorized access'

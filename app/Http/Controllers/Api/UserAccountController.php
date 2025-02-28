@@ -95,13 +95,13 @@ class UserAccountController extends Controller
         }
     }
 
-    function generateUniqueLogin()
+    public function generateUniqueLogin()
     {
         do {
             $login = rand(10000000, 99999999);
 
             $exists = DB::table('user_accounts')->where('login', $login)->exists();
-        } while ($exists); 
+        } while ($exists);
 
         return $login;
     }

@@ -16,7 +16,10 @@ use App\Events\LogTransactionStatus;
 
 class ProcessTransfer implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public $tries = 5;
     public $retryAfter = 60;
@@ -74,25 +77,25 @@ class ProcessTransfer implements ShouldQueue
             // store in transaction table
             DB::table('transactions')->insert([
                 [
-                    'transaction_id' => $transfer->transfers_id, 
+                    'transaction_id' => $transfer->transfers_id,
                     'user_id' => $transfer->receiver_id,
                     'transaction_amount' => $transfer->transfer_amount,
                     'transaction_status' => 'completed',
                     'transaction_type' => '3',
                     'action_reason' => 'add balance',
                     'transaction_timestamp' => now(),
-                    'created_at' => now(), 
+                    'created_at' => now(),
                     'updated_at' => now()
                 ],
                 [
-                    'transaction_id' => $transfer->transfers_id, 
+                    'transaction_id' => $transfer->transfers_id,
                     'user_id' => $transfer->sender_id,
                     'transaction_amount' => '-'.$transfer->transfer_amount,
                     'transaction_status' => 'completed',
                     'transaction_type' => '3',
                     'action_reason' => 'deduct balance',
                     'transaction_timestamp' => now(),
-                    'created_at' => now(), 
+                    'created_at' => now(),
                     'updated_at' => now()
                 ],
             ]);

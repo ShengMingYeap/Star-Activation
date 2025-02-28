@@ -45,7 +45,7 @@ class AuthController extends Controller
                 'last_login' => now(),
                 'ip_address' => $request->ip(),
             ]);
-            
+
             DB::commit();
 
             return response()->json([

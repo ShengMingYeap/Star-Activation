@@ -30,7 +30,7 @@ class TransferController extends Controller
         }
 
         $user = auth()->user();
-        
+
         // check user balance
         if ($user->balance < $request->amount) {
             event(new LogTransactionStatus($user->id, null, 'failed', 'Insufficient balance'));
@@ -81,7 +81,7 @@ class TransferController extends Controller
             return response()->json([
                 'result' => true,
                 'message' => "Transaction is being processed.",
-            ], 201);  
+            ], 201);
         } catch (Exception $e) {
             DB::rollBack();
             event(new LogTransactionStatus($user->id, null, 'failed', 'Error processing transfer'));
