@@ -12,7 +12,7 @@ return new class () extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('receiver_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users');
             $table->decimal('transaction_amount', 18, 2);
             $table->enum('transaction_status', ['pending', 'completed', 'failed'])->default('pending');
             $table->tinyInteger('transaction_type')->comment('1: Deposit 2: Withdraw 3: Transfer');
